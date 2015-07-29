@@ -1,0 +1,38 @@
+﻿@model SMLApplication.Web.Models.ChannelModels
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Doctor Name</td>
+        <td>Patient Name</td>
+        <td>Appointment Time</td>
+    </tr>
+
+    @foreach (var item in Model.Appointments)
+    {
+
+        <tr>
+            <td> @item.Doctor.Name</td>
+            <td> @item.Patient.Name </td>
+            <td> @DateTime.Now.ToString() </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
