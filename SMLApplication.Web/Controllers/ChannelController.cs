@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using SMLApplication.Data;
 using SMLApplication.Web.Models;
 using SMLApplication.Business;
@@ -11,16 +13,28 @@ namespace SMLApplication.Web.Controllers
 {
     public class ChannelController : Controller
     {
+        private SMLDBEntities Context = new SMLDBEntities();
         //
         // GET: /Channel/
 
+        [HandleError(ExceptionType = typeof(NullReferenceException), View = "NullReferenceExceptionErrorPage")]
         public ActionResult Index()
         {
+            // throw new Exception();
             ChannelModels model = new ChannelModels();
             IChannelManager manager = new ChannelManager();
 
             int doctorId = 1;
-            model.Appointments = manager.GetAppointmentsByDoctorId(doctorId);
+
+            //TODO Check whether the role id doctor
+            if (doctorId == 1)
+            {
+                model.Appointments = manager.GetAppointmentsByDoctorId(doctorId);
+            }
+            //else if (pati)
+            //{
+
+            //}
 
             return View(model);
         }
@@ -30,7 +44,8 @@ namespace SMLApplication.Web.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            Appointment appointment = Context.Appointments.Find(id);
+            return View(appointment);
         }
 
         //
@@ -47,16 +62,18 @@ namespace SMLApplication.Web.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            // TODO: Add insert logic here
+            Appointment appointment = new Appointment();
+
+            //TODO Get the current patient Id  from the session
+            appointment.Patient_Id = 1;
+            appointment.Doctor_Id = Int16.Parse(collection["Doctor_Id"]);
+
+            Context.Appointments.Add(appointment);
+            Context.SaveChanges();
+            return RedirectToAction("Index");
+
         }
 
         //
@@ -64,7 +81,8 @@ namespace SMLApplication.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            Appointment appointment = Context.Appointments.Find(id);
+            return View(appointment);
         }
 
         //
@@ -76,8 +94,17 @@ namespace SMLApplication.Web.Controllers
             try
             {
                 // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    Appointment appointment = Context.Appointments.Find(id);
+                    appointment.Patient_Id = Int16.Parse(collection["Patient_Id"]);
 
+                    UpdateModel(appointment);
+                    Context.SaveChanges();
+
+                }
                 return RedirectToAction("Index");
+
             }
             catch
             {
@@ -90,7 +117,8 @@ namespace SMLApplication.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            Appointment appointment = Context.Appointments.Find(id);
+            return View(appointment);
         }
 
         //
@@ -102,7 +130,13 @@ namespace SMLApplication.Web.Controllers
             try
             {
                 // TODO: Add delete logic here
+                Appointment appointment = Context.Appointments.Find(id);
 
+                if (appointment == null)
+                    return View("NotFound");
+
+                Context.Appointments.Remove(appointment);
+                Context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

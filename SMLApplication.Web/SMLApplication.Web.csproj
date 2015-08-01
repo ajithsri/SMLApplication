@@ -264,7 +264,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -304,6 +306,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Channel\Index.cshtml" />
+    <Content Include="Views\Channel\Create.cshtml" />
+    <Content Include="Views\Shared\NullReferenceExceptionErrorPage.cshtml" />
+    <Content Include="Views\Channel\Details.cshtml" />
+    <Content Include="Views\Channel\Edit.cshtml" />
+    <Content Include="Views\Channel\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

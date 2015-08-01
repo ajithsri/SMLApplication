@@ -12,7 +12,7 @@ namespace SMLApplication.Business
         public IList<Data.Appointment> GetAppointmentsByDoctorId(int doctorId)
         {
             SMLDBEntities context = new SMLDBEntities();
-            return context.Appointments.ToList();
+            return context.Appointments.Where(r => r.Doctor_Id == doctorId).ToList();
         }
     }
 }

@@ -1,0 +1,30 @@
+﻿@model SMLApplication.Data.Appointment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Appointment</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Patient_Id)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Patient_Id)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Doctor_Id)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Doctor_Id)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

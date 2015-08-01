@@ -14,6 +14,11 @@ namespace SMLApplication.Data
     
     public partial class Doctor
     {
+        public Doctor()
+        {
+            this.Appointments = new HashSet<Appointment>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public Nullable<int> Age { get; set; }
@@ -21,6 +26,6 @@ namespace SMLApplication.Data
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> SkillId { get; set; }
     
-        public virtual Appointment Appointment { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model SMLApplication.Data.Appointment
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Appointment</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Patient_Id)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Patient_Id)
+            @Html.ValidationMessageFor(model => model.Patient_Id)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Doctor_Id)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Doctor_Id)
+            @Html.ValidationMessageFor(model => model.Doctor_Id)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

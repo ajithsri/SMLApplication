@@ -8,8 +8,8 @@
         <EntityTypeShape EntityType="SMLDBModel.Appointment" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SMLDBModel.Doctor" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SMLDBModel.Patient" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <AssociationConnector Association="SMLDBModel.FK_Appointment_Doctor" ManuallyRouted="false" />
-        <AssociationConnector Association="SMLDBModel.FK_Appointment_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="SMLDBModel.FK_Appointment_Doctor" />
+        <AssociationConnector Association="SMLDBModel.FK_Appointment_Patient" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
