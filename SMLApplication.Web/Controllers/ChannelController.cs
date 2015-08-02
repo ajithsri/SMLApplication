@@ -13,30 +13,35 @@ namespace SMLApplication.Web.Controllers
 {
     public class ChannelController : Controller
     {
-        private SMLDBEntities Context = new SMLDBEntities();
+        private ChannelModels channelModel;
+        private IChannelManager channelManager;
         //
         // GET: /Channel/
+
+        public ChannelController()
+        {
+            channelModel = new ChannelModels();
+            channelManager = new ChannelManager();
+        }
 
         [HandleError(ExceptionType = typeof(NullReferenceException), View = "NullReferenceExceptionErrorPage")]
         public ActionResult Index()
         {
             // throw new Exception();
-            ChannelModels model = new ChannelModels();
-            IChannelManager manager = new ChannelManager();
 
             int doctorId = 1;
 
             //TODO Check whether the role id doctor
             if (doctorId == 1)
             {
-                model.Appointments = manager.GetAppointmentsByDoctorId(doctorId);
+                channelModel.Appointments = channelManager.GetAppointmentsByDoctorId(doctorId);
             }
             //else if (pati)
             //{
 
             //}
 
-            return View(model);
+            return View(channelModel);
         }
 
         //
@@ -44,8 +49,8 @@ namespace SMLApplication.Web.Controllers
 
         public ActionResult Details(int id)
         {
-            Appointment appointment = Context.Appointments.Find(id);
-            return View(appointment);
+            channelModel.Appointment = channelManager.GetAppointmentByAppointmentId(id);
+            return View(channelModel.Appointment);
         }
 
         //
@@ -62,18 +67,12 @@ namespace SMLApplication.Web.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            int patientId = Int16.Parse(collection["Patient_Id"]);
+            int doctorId = Int16.Parse(collection["Doctor_Id"]);
 
-            // TODO: Add insert logic here
-            Appointment appointment = new Appointment();
-
-            //TODO Get the current patient Id  from the session
-            appointment.Patient_Id = 1;
-            appointment.Doctor_Id = Int16.Parse(collection["Doctor_Id"]);
-
-            Context.Appointments.Add(appointment);
-            Context.SaveChanges();
+            bool isCreated = channelManager.CreateAppointmentByPatientIdAndDoctorId(patientId, doctorId);
+           
             return RedirectToAction("Index");
-
         }
 
         //
@@ -81,8 +80,9 @@ namespace SMLApplication.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            Appointment appointment = Context.Appointments.Find(id);
-            return View(appointment);
+            channelModel.Appointment = channelManager.GetAppointmentByAppointmentId(id);
+
+            return View(channelModel.Appointment);
         }
 
         //
@@ -96,13 +96,13 @@ namespace SMLApplication.Web.Controllers
                 // TODO: Add update logic here
                 if (ModelState.IsValid)
                 {
-                    Appointment appointment = Context.Appointments.Find(id);
-                    appointment.Patient_Id = Int16.Parse(collection["Patient_Id"]);
 
-                    UpdateModel(appointment);
-                    Context.SaveChanges();
+                    int patientId = Int16.Parse(collection["Patient_Id"]);
+                    int doctorId =  Int16.Parse(collection["Doctor_Id"]);
 
+                    channelManager.UpdateAppointment(id, patientId, doctorId);
                 }
+                
                 return RedirectToAction("Index");
 
             }
@@ -117,8 +117,8 @@ namespace SMLApplication.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            Appointment appointment = Context.Appointments.Find(id);
-            return View(appointment);
+            channelModel.Appointment = channelManager.GetAppointmentByAppointmentId(id);
+            return View(channelModel.Appointment);
         }
 
         //
@@ -130,13 +130,10 @@ namespace SMLApplication.Web.Controllers
             try
             {
                 // TODO: Add delete logic here
-                Appointment appointment = Context.Appointments.Find(id);
+                //int patientId = Int16.Parse(collection["Patient_Id"]);
+                //int doctorId = Int16.Parse(collection["Doctor_Id"]);
 
-                if (appointment == null)
-                    return View("NotFound");
-
-                Context.Appointments.Remove(appointment);
-                Context.SaveChanges();
+                channelManager.DeleteAppointment(id);
                 return RedirectToAction("Index");
             }
             catch

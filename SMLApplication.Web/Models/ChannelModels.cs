@@ -9,5 +9,6 @@ namespace SMLApplication.Web.Models
     public class ChannelModels
     {
         public IList<Appointment> Appointments { get; set; }
+        public Appointment Appointment { get; set; }
     }
 }
