@@ -4,12 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SMLApplication.Data;
+using RestSharp;
 
 namespace SMLApplication.Business
 {
     public class ChannelManager : IChannelManager
     {
         private SMLDBEntities context = new SMLDBEntities();
+        public IList<Appointment> GetAppointments()
+        {
+            return context.Appointments.ToList();
+        }
+
         public IList<Data.Appointment> GetAppointmentsByDoctorId(int doctorId)
         {
             return context.Appointments.Where(r => r.Doctor_Id == doctorId).ToList();
@@ -34,6 +40,10 @@ namespace SMLApplication.Business
             return true;
         }
 
+        public IList<Appointment> GetAppointmentsByPatientId(int patientId)
+        {
+            return context.Appointments.Where(r => r.Patient_Id == patientId).ToList();
+        }
         public bool UpdateAppointment(int appointmentId, int patientId, int doctorId)
         {
             Appointment appointment = context.Appointments.Find(appointmentId);
@@ -52,5 +62,6 @@ namespace SMLApplication.Business
 
             return true;
         }
+
     }
 }

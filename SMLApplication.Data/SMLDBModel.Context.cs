@@ -18,6 +18,7 @@ namespace SMLApplication.Data
         public SMLDBEntities()
             : base("name=SMLDBEntities")
         {
+            base.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
